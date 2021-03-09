@@ -39,7 +39,10 @@ class Board {
   BoardState EvaluateBoard() const;
 
  private:
-  /// TODO: add your helper functions and member variables here
+  const int BOARD_LENGTH = 3;
+  const int BOARD_HEIGHT = 3;
+  const int BOARD_SIZE = BOARD_HEIGHT * BOARD_LENGTH;
+  std::string boardString;
 };
 
 }  // namespace tictactoe

@@ -53,7 +53,7 @@ TEST_CASE("Unreachable state of board") {
   }
 
   SECTION("numX == numO + 1 when O has won") {
-    REQUIRE(Board("xxo.oxo.x").EvaluateBoard() == BoardState::UnreachableState);
+    REQUIRE(Board("xxoxxo..o").EvaluateBoard() == BoardState::UnreachableState);
   }
 
 }
