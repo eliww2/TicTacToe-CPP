@@ -51,9 +51,9 @@ BoardState Board::EvaluateBoard() const {
   // Horizontal testing
   for (int i = 0; i < BOARD_HEIGHT; i++) {
     string print = boardString.substr(BOARD_LENGTH * i, BOARD_LENGTH * (i + 1));
-    if (boardString.substr(BOARD_LENGTH * i, BOARD_LENGTH) == "xxx") {
+    if (boardString.substr(BOARD_LENGTH * i, BOARD_LENGTH) == x_In_A_Row) {
       xWins++;
-    } else if (boardString.substr(BOARD_LENGTH * i, BOARD_LENGTH) == "ooo") {
+    } else if (boardString.substr(BOARD_LENGTH * i, BOARD_LENGTH) == o_In_A_Row) {
       oWins++;
     }
   }
@@ -64,9 +64,9 @@ BoardState Board::EvaluateBoard() const {
     for (int j = i; j < BOARD_SIZE; j += BOARD_LENGTH) {
       vertical += boardString.at(j);
     }
-    if (vertical == "xxx") {
+    if (vertical == x_In_A_Row) {
       xWins++;
-    } else if (vertical == "ooo") {
+    } else if (vertical == o_In_A_Row) {
       oWins++;
     }
   }
@@ -76,9 +76,9 @@ BoardState Board::EvaluateBoard() const {
   for (int i = 0; i < BOARD_LENGTH; i++) {
     diagonalLeftToRight += boardString.at(i * (BOARD_LENGTH + 1));
   }
-  if (diagonalLeftToRight == "xxx" ) {
+  if (diagonalLeftToRight == x_In_A_Row) {
     xWins++;
-  } else if (diagonalLeftToRight == "ooo") {
+  } else if (diagonalLeftToRight == o_In_A_Row) {
     oWins++;
   }
 
@@ -86,9 +86,9 @@ BoardState Board::EvaluateBoard() const {
   std::string diagonalRightToLeft = "";
   for (int i = 1; i < BOARD_LENGTH + 1; i++) {
     diagonalRightToLeft += boardString.at(i * (BOARD_LENGTH - 1));
-  } if (diagonalRightToLeft == "xxx") {
+  } if (diagonalRightToLeft == x_In_A_Row) {
     xWins++;
-  } else if (diagonalRightToLeft == "ooo") {
+  } else if (diagonalRightToLeft == o_In_A_Row) {
     oWins++;
   }
 
@@ -96,6 +96,8 @@ BoardState Board::EvaluateBoard() const {
   if (xWins > 0 && oWins > 0) {
     return BoardState::UnreachableState;
   } else if (oWins > 0 && xCount == oCount + 1) {
+    return BoardState::UnreachableState;
+  } else if (xWins > 0 && xCount == oCount) {
     return BoardState::UnreachableState;
   } else if (xWins > 0) {
     return BoardState::Xwins;

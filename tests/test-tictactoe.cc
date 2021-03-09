@@ -35,7 +35,7 @@ TEST_CASE("Boards with no winner") {
   }
 
   SECTION("Game in progress O moved last") {
-    REQUIRE(Board("x.O.Xo.o.").EvaluateBoard() == BoardState::NoWinner);
+    REQUIRE(Board("xOx.opwer").EvaluateBoard() == BoardState::NoWinner);
   }
 }
 
