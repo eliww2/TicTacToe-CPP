@@ -21,26 +21,26 @@ Board::Board(const string& board) {
 }
 
 BoardState Board::EvaluateBoard() const {
-  // Unreachable state testing
-  int xCount = 0;
-  int oCount = 0;
-  string x_In_A_Row = "";
-  string o_In_A_Row = "";
+  //variables
+  int x_count = 0;
+  int o_count = 0;
+  string x_in_row = "";
+  string o_in_row = "";
   for (int i = 0; i < BOARD_LENGTH; i++) {
-    x_In_A_Row += "x";
-    o_In_A_Row += "o";
+    x_in_row += "x";
+    o_in_row += "o";
   }
 
-
+  // Unreachable state testing
   for (int boardSpot = 0; boardSpot < BOARD_SIZE; boardSpot++) {
     if (boardString.at(boardSpot) == 'x' || boardString.at(boardSpot) == 'X') {
-      xCount++;
+      x_count++;
     }
     if (boardString.at(boardSpot) == 'o' || boardString.at(boardSpot) == 'O') {
-      oCount++;
+      o_count++;
     }
   }
-  if (xCount > oCount + 1 || oCount > xCount) {
+  if (x_count > o_count + 1 || o_count > x_count) {
     return BoardState::UnreachableState;
   }
 
@@ -49,55 +49,55 @@ BoardState Board::EvaluateBoard() const {
   int oWins = 0;
 
   // Horizontal testing
-  for (int i = 0; i < BOARD_HEIGHT; i++) {
-    string print = boardString.substr(BOARD_LENGTH * i, BOARD_LENGTH * (i + 1));
-    if (boardString.substr(BOARD_LENGTH * i, BOARD_LENGTH) == x_In_A_Row) {
+  for (int row = 0; row < BOARD_HEIGHT; row++) {
+    if (boardString.substr(BOARD_LENGTH * row, BOARD_LENGTH) == x_in_row) {
       xWins++;
-    } else if (boardString.substr(BOARD_LENGTH * i, BOARD_LENGTH) == o_In_A_Row) {
+    } else if (
+        boardString.substr(BOARD_LENGTH * row, BOARD_LENGTH) == o_in_row) {
       oWins++;
     }
   }
 
   // Vertical testing
-  for (int i = 0; i < BOARD_LENGTH; i++) {
+  for (int column = 0; column < BOARD_LENGTH; column++) {
     string vertical = "";
-    for (int j = i; j < BOARD_SIZE; j += BOARD_LENGTH) {
+    for (int j = column; j < BOARD_SIZE; j += BOARD_LENGTH) {
       vertical += boardString.at(j);
     }
-    if (vertical == x_In_A_Row) {
+    if (vertical == x_in_row) {
       xWins++;
-    } else if (vertical == o_In_A_Row) {
+    } else if (vertical == o_in_row) {
       oWins++;
     }
   }
 
   // Left to Right Diagonal testing (this is mostly applicable for boards with m = n = k)
-  std::string diagonalLeftToRight = "";
+  string diagonalLeftToRight = "";
   for (int i = 0; i < BOARD_LENGTH; i++) {
     diagonalLeftToRight += boardString.at(i * (BOARD_LENGTH + 1));
   }
-  if (diagonalLeftToRight == x_In_A_Row) {
+  if (diagonalLeftToRight == x_in_row) {
     xWins++;
-  } else if (diagonalLeftToRight == o_In_A_Row) {
+  } else if (diagonalLeftToRight == o_in_row) {
     oWins++;
   }
 
   // Right to Left Diagonal testing
-  std::string diagonalRightToLeft = "";
+  string diagonalRightToLeft = "";
   for (int i = 1; i < BOARD_LENGTH + 1; i++) {
     diagonalRightToLeft += boardString.at(i * (BOARD_LENGTH - 1));
-  } if (diagonalRightToLeft == x_In_A_Row) {
+  } if (diagonalRightToLeft == x_in_row) {
     xWins++;
-  } else if (diagonalRightToLeft == o_In_A_Row) {
+  } else if (diagonalRightToLeft == o_in_row) {
     oWins++;
   }
 
   // winner decided
   if (xWins > 0 && oWins > 0) {
     return BoardState::UnreachableState;
-  } else if (oWins > 0 && xCount == oCount + 1) {
+  } else if (oWins > 0 && x_count == o_count + 1) {
     return BoardState::UnreachableState;
-  } else if (xWins > 0 && xCount == oCount) {
+  } else if (xWins > 0 && x_count == o_count) {
     return BoardState::UnreachableState;
   } else if (xWins > 0) {
     return BoardState::Xwins;
